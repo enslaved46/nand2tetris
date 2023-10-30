@@ -6,10 +6,27 @@
  * Multiplexor:
  * out = ((sel == 0), a, b)
  */
+
+
+//|   a   |   b   |  sel  |  out  | sop
+//|   0   |   0   |   0   |   0   |
+//|   0   |   0   |   1   |   0   |
+//|   0   |   1   |   0   |   0   |
+//|   0   |   1   |   1   |   1   |a'.b's
+//|   1   |   0   |   0   |   1   |a.b'.s'
+//|   1   |   0   |   1   |   0   |
+//|   1   |   1   |   0   |   1   |a.b.s'
+//|   1   |   1   |   1   |   1   |a.b.s
+//| by Solving -> a.s' + b.s
+
 CHIP Mux {
     IN a, b, sel;
     OUT out;
 
     PARTS:
-    //// Replace this comment with your code.
+    Not (in=sel, out=o2);
+    And(a=a, b=o2, out=o3);
+
+    And(a=sel, b=b, out=o4);
+    Or (a=o3, b=o4, out=out);
 }

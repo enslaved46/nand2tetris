@@ -5,11 +5,24 @@
 /**
  * Demultiplexor:
  * [a, b] = ((sel == 0), [in, 0], [0, in])
- */
+
+* |  in   |  sel  |   a   |   b   |
+* |   0   |   0   |   0   |   0   |
+* |   0   |   1   |   0   |   0   |
+* |   1   |   0   |   1   |   0   |
+* |   1   |   1   |   0   |   1   |
+
+* a = in.sel'
+*b = in.sel
+*/
+
 CHIP DMux {
     IN in, sel;
     OUT a, b;
 
     PARTS:
-    //// Replace this comment with your code.
+    Not (in=sel, out=o1);
+    And(a=in, b=o1, out=a);
+
+    And(a=sel, b=in, out=b);
 }
